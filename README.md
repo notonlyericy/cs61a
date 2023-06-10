@@ -33,3 +33,33 @@ def curried_pow(x):
 curried_pow(2)(3)
 ```
 pow(x, y) => curried\_pow(2)(3)
+
+---
+#### Environment
+An environment is a sequence of frames.
+- The global frame alone
+- A local, then the global frame
+
+For example:
+```python
+from operator import mul
+def square(x):
+    return mul(x, x)
+
+square(square(3))
+```
+1. At first, we are in global frame which is the last frame in the environment.
+2. Then to evaluate square(3), we get into the local frame f1: square [parent=Global], then we got 9 and back to global frame.
+3. Then to evaluate square(9), we get into the local frame f2: square [parent=Global], then we got 81 and back to global frame.
+
+##### What's more?
+1. Every expression is evaluated in the context of an environment.
+2. A name evaluates to the value bound to that name in the earliest frame of the current environment in which that name if found.
+    - like the example above: the value of square which is in the global frame is a function, but when you call it, you will get into its local frame.
+
+##### What about nested function?
+![image](./assert/week2/environment_for_nested_definition.png)
+In the picture, the nested function *adder* can use **n** coming from current frame, but you can't change the **n** without do anything
+
+Q:
+1. When I used python tutor for the code above, it did not get into the mul's local frame. I didn't know if it was because that function is predefined.
