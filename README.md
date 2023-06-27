@@ -63,3 +63,39 @@ In the picture, the nested function *adder* can use **n** coming from current fr
 
 Q:
 1. When I used python tutor for the code above, it did not get into the mul's local frame. I didn't know if it was because that function is predefined.
+
+
+#### Recursion
+1. conditional statements check for **base cases**
+2. Base cases are evaluated **without recursive calls**
+3. Recursive cases are evaluated **with recursive calls**
+
+
+##### Mutual Recursion
+[Luhn algorithm](https://en.wikipedia.org/wiki/Luhn_algorithm)
+```python
+def split(n):
+    return n // 10, n % 10
+
+def sum_digit(n):
+    if n < 10:
+        return n
+    else:
+        all_but_last, last = split(n)
+        return sum_digits(all_but_last) + last
+
+def luhn_sum(n):
+    if n < 10:
+        return n
+    else:
+        all_but_last, last = split(n)
+        return luhn_sum_double(all_but_last) + last
+
+def luhn_sum_double(n):
+    all_but_last, last = split(n)
+    luhn_digit = sum_digits(2 * last)
+    if n < 10:
+        return luhn_digit
+    else:
+        return luhn_sum(all_but_last) + luhn_digit
+```
